@@ -37,11 +37,21 @@ int main()
     PayOffCall thePayOff(Strike);
     Bridge<PayOffCall> bridgepayoff(thePayOff);
     PayOffBridge POB(thePayOff);
+    // can either use this. if we use this. implicit conversion from ParamConst to Parameter while passing to tree
     ParametersConstant rParam(r);
     ParametersConstant dParam(d);
+
+    //or can use this. if we use this we are passing the pointer of param const to param and explicitly converting to param which
+    // is then passed to tree.
+    ParametersInner * ptr_r = new ParametersConstant(r);
+    ParametersInner * ptr_d = new ParametersConstant(d);
+
+    Parameters rParam_C(*ptr_r);
+    Parameters dParam_C(*ptr_d);
+
     TreeEuropean europeanOption(Expiry,POB);
     TreeAmerican americanOption(Expiry,thePayOff);
-    SimpleBinomialTree theTree(Spot,rParam,dParam,Vol,Steps,Expiry);
+    SimpleBinomialTree theTree(Spot,rParam_C,dParam,Vol,Steps,Expiry);
     double euroPrice = theTree.GetThePrice(europeanOption);
     double americanPrice = theTree.GetThePrice(americanOption);
     cout << "euro price" << euroPrice << "amer price" << americanPrice << "\n";
