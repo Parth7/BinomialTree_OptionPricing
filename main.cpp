@@ -49,7 +49,7 @@ int main()
     Parameters rParam_C(*ptr_r);
     Parameters dParam_C(*ptr_d);
 
-    TreeEuropean europeanOption(Expiry,POB);
+    TreeEuropean europeanOption(Expiry,thePayOff);
     TreeAmerican americanOption(Expiry,thePayOff);
     SimpleBinomialTree theTree(Spot,rParam_C,dParam,Vol,Steps,Expiry);
     double euroPrice = theTree.GetThePrice(europeanOption);

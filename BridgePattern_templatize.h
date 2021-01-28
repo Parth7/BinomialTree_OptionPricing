@@ -11,7 +11,8 @@ template<class inner>
 class Bridge
 {
 public:
-    Bridge(const Bridge& original);
+    // it worked even if I dont mention <inner> because of CTAD
+    Bridge(const Bridge<inner>& original);
     Bridge(const inner& innerP);
     double operator()(double Spot) const;
     ~Bridge();
@@ -23,6 +24,7 @@ private:
 
 // specialised version of the bridge for payoff
 template<>
+
 class Bridge<class PayOff>
 {
 private:
