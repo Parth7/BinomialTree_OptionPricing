@@ -5,6 +5,8 @@
 #include<iostream>
 #include"PayoffForward.h"
 #include<cmath>
+#include"PayOffBridge.h"
+#include"BridgePattern_templatize.h"
 
 using namespace std;
 
@@ -33,9 +35,11 @@ int main()
     cin >> Steps;
 
     PayOffCall thePayOff(Strike);
+    Bridge<PayOffCall> bridgepayoff(thePayOff);
+    PayOffBridge POB(thePayOff);
     ParametersConstant rParam(r);
     ParametersConstant dParam(d);
-    TreeEuropean europeanOption(Expiry,thePayOff);
+    TreeEuropean europeanOption(Expiry,POB);
     TreeAmerican americanOption(Expiry,thePayOff);
     SimpleBinomialTree theTree(Spot,rParam,dParam,Vol,Steps,Expiry);
     double euroPrice = theTree.GetThePrice(europeanOption);
